@@ -9,41 +9,36 @@ import Search from "../components/Search.jsx";
 
 import "../assets/styles/App.scss";
 
+import useInitialState from "../hooks/useInitialState.js";
+const API = "http://localhost:3000/initialState";
+
 const App = () => {
+  const initialState = useInitialState(API);
+
   return (
     <>
       <Header />
       <Search />
-      <Categories>
+      {initialState.mylist.lenght > 0 && (
+        <Categories title="Mi lista">
+          <Carousel>
+            <CarouselItem />
+          </Carousel>
+        </Categories>
+      )}
+
+      <Categories title="Trends">
         <Carousel>
-          <CarouselItem />
-          <CarouselItem />
-          <CarouselItem />
-          <CarouselItem />
+          {initialState.trends?.map((item) => {
+            return <CarouselItem key={item.id} {...item} />;
+          })}
         </Carousel>
       </Categories>
-      <Categories>
+      <Categories title="Originales de Platzi Video">
         <Carousel>
-          <CarouselItem />
-          <CarouselItem />
-          <CarouselItem />
-          <CarouselItem />
-        </Carousel>
-      </Categories>
-      <Categories>
-        <Carousel>
-          <CarouselItem />
-          <CarouselItem />
-          <CarouselItem />
-          <CarouselItem />
-        </Carousel>
-      </Categories>
-      <Categories>
-        <Carousel>
-          <CarouselItem />
-          <CarouselItem />
-          <CarouselItem />
-          <CarouselItem />
+          {initialState.originals?.map((item) => {
+            return <CarouselItem key={item.id} {...item} />;
+          })}
         </Carousel>
       </Categories>
       <Footer />

@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "webpack serve --mode development",
+    "start": "json-server initialState.json & webpack serve --mode development",
     "build": "webpack -c webpack.config.js --mode production"
   },
   "keywords": [],
