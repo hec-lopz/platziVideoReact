@@ -19,7 +19,25 @@ const App = () => {
     <>
       <Header />
       <Search />
-      {initialState.mylist.lenght > 0 && (
+      {initialState &&
+        Object.keys(initialState).map((category, id) => {
+          console.log(initialState, category, id);
+          debugger;
+          if (initialState[category].length !== 0) {
+            return (
+              <Categories key={id} title={category}>
+                <Carousel>
+                  {initialState[category].map((item) => (
+                    <CarouselItem key={item.id} {...item} />
+                  ))}
+                </Carousel>
+              </Categories>
+            );
+          } else {
+            return;
+          }
+        })}
+      {/* {initialState.mylist.lenght > 0 && (
         <Categories title="Mi lista">
           <Carousel>
             <CarouselItem />
@@ -40,7 +58,7 @@ const App = () => {
             return <CarouselItem key={item.id} {...item} />;
           })}
         </Carousel>
-      </Categories>
+      </Categories> */}
       <Footer />
     </>
   );

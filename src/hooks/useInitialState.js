@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
 
-const getCategoryTitle = () => {
+const getCategoryTitle = (category) => {
   switch (category) {
-    case "myList":
+    case "mylist":
       return "Mi lista";
     case "trends":
       return "Tendencias";
-    case "original":
+    case "originals":
       return "Originales de Platzi Video";
   }
 };
@@ -19,20 +19,24 @@ const useInitialState = (API) => {
   });
 
   useEffect(() => {
+    // Función que se ejecuta a sí misma
     const fetchVideos = (async () => {
       try {
         const response = await fetch(API);
         const json = await response.json();
 
-        const data = Object.keys(json);
+        let dataWithTitles = {};
 
-        const dataWithTitles = data.map(
-          (category) => (Object({getCategoryTitle(category):data.category} ))
-        );
+        const data = Object.keys(json).map((key) => {
+          // Obtener título de la sección
+          const title = getCategoryTitle(key);
+          dataWithTitles[title] = json[key];
+        });
+
         console.log(dataWithTitles);
         debugger;
 
-        return setVideos(data);
+        return setVideos(dataWithTitles);
       } catch (error) {
         console.log(error);
       }
